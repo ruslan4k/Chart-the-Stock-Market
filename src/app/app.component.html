@@ -1,0 +1,26 @@
+<div class='col-12'>
+  <form class="form-inline mb-2" (ngSubmit)='addStock()'>
+    <div class="row ml-4">
+      <input type="text" class="form-control col-6 ml-1" [(ngModel)]="symbol" [disabled] ='loading'
+       name="symbol" placeholder="Enter symbol">
+      <button class='btn btn-primary mr-3' [disabled] ='loading' type="submit">Add Stock</button>
+      <i *ngIf='loading' id="loading-bar-spinner" class="spinner">
+        <div class="spinner-icon"></div>
+      </i>
+      <p *ngIf='errMsg' class='text-danger'>{{errMsg}}</p>
+    </div>
+  </form>
+</div>
+
+<div *ngIf ='multi.length != 0' class='chart'>
+<ngx-charts-line-chart [view]='view' [scheme]="colorScheme" [results]="multi" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
+  [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+  [autoScale]="autoScale" (select)="onSelect($event)">
+</ngx-charts-line-chart>
+</div>
+<div *ngIf = 'stocks.length > 0' class='ml-4'>
+<h5>DELETE:</h5>
+<div *ngFor="let stock of stocks" class='btn-group'> 
+<button  *ngIf='stock' class='btn btn-danger mr-1 mb-1' (click)='deleteStock(stock)' >{{stock}}</button>
+</div>
+</div>
