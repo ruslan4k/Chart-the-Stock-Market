@@ -13,8 +13,27 @@ const EventEmitter = require('events');
 class MyEmitter extends EventEmitter { }
 const myEmitter = new MyEmitter();
 
-var WebSocketServer = require('ws').Server,
-  wss = new WebSocketServer({ port: 3001 })
+require('dotenv').load();
+var app = express();
+mongoose.connect(process.env.URI);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  console.log('connected to mongoDB');
+});
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+app.use(favicon(path.join(appRoot.path, 'dist/favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+
+// var server          = app.listen(3000);
+var server   = app.listen(process.env.PORT || 3000);
+var WebSocketServer = require('ws').Server
+var wss  = new WebSocketServer({ server : server });
 
 
 myEmitter.on('addStock', function (symbol) {
@@ -35,26 +54,6 @@ myEmitter.on('removeStock', function (symbol) {
     })
   })
 });
-
-
-require('dotenv').load();
-var app = express();
-mongoose.connect(process.env.URI);
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function () {
-  console.log('connected to mongoDB');
-});
-
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.use(favicon(path.join(appRoot.path, 'dist/favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-
-
 
 app.options('*', cors.corsWithOptions)
 

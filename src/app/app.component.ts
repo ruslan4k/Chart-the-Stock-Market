@@ -41,9 +41,8 @@ export class AppComponent implements OnInit {
 
   constructor(public stockService: StockService) {
     this.update = <Subject<any>>stockService
-     // .connect(location.origin.replace(/^http/, 'wss'))
-    //  .connect('ws://warm-tor-81501.herokuapp.com')
-    .connect('ws://localhost:3001/')
+     .connect(location.origin.replace(/^https/, 'wss'))
+    // .connect('ws://localhost:3001/')
       .map((response: MessageEvent) => {
         console.log(response.data)
         return JSON.parse(response.data)
