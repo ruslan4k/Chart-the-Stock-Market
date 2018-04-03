@@ -14,7 +14,7 @@ class MyEmitter extends EventEmitter { }
 const myEmitter = new MyEmitter();
 
 var WebSocketServer = require('ws').Server,
-  wss = new WebSocketServer({ port: 40510 })
+  wss = new WebSocketServer({ port: 3001 })
 
 
 myEmitter.on('addStock', function (symbol) {
@@ -35,31 +35,6 @@ myEmitter.on('removeStock', function (symbol) {
     })
   })
 });
-
-
-
-function noop() { }
-
-function heartbeat() {
-  this.isAlive = true;
-}
-
-
-wss.on('connection', function connection(ws) {
-  ws.isAlive = true;
-  ws.on('pong', heartbeat);
-});
-
-
-const interval = setInterval(function ping() {
-  wss.clients.forEach(function each(ws) {
-    if (ws.isAlive === false) return ws.terminate();
-    ws.isAlive = false;
-    ws.ping(noop);
-  });
-}, 30000);
-
-
 
 
 require('dotenv').load();

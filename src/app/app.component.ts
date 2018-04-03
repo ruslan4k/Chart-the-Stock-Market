@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
   stocks: string[] = [];
   public update: Subject<any>;
 
-
   view: any[] = [900, 500];
 
   // options
@@ -42,7 +41,9 @@ export class AppComponent implements OnInit {
 
   constructor(public stockService: StockService) {
     this.update = <Subject<any>>stockService
-      .connect('ws://localhost:40510/')
+     // .connect(location.origin.replace(/^http/, 'wss'))
+    //  .connect('ws://warm-tor-81501.herokuapp.com')
+    .connect('ws://localhost:3001/')
       .map((response: MessageEvent) => {
         console.log(response.data)
         return JSON.parse(response.data)
