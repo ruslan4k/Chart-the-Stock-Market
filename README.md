@@ -1,4 +1,4 @@
-# Chart the Stock Market (FreeCodeCamp project)
+# Chart the Stock Market (<a href='https://learn.freecodecamp.org/coding-interview-prep/take-home-projects/chart-the-stock-market/'>FreeCodeCamp project</a>)
 
 Full stack JavaScript app built with MEAN stack using WebSockets.
 
